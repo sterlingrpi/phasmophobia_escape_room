@@ -8,13 +8,13 @@ ghost_types = {
 }
 
 names = {
-    'male': ['John', 'Paul', 'George', 'Ringo'],
-    'female': ['Katie', 'Regina', 'Karen', 'Gretchen']
+    'Male': ['John', 'Paul', 'George', 'Ringo'],
+    'Female': ['Katie', 'Regina', 'Karen', 'Gretchen']
 }
 
 def ghost_generator():
     type = choice(list(ghost_types))
-    gender = choice(['male', 'female'])
+    gender = choice(['Male', 'Female'])
     return ghost(type = type,
                  gender = gender,
                  name = choice(names[gender]),
@@ -25,8 +25,8 @@ def ghost_generator():
 
 class ghost:
     def __init__(self,
-                 type = 'demon',
-                 gender = 'male',
+                 type = 'Demon',
+                 gender = 'Male',
                  name = 'John',
                  age = 69,
                  evidence = ['Ghost Writing', 'Fingerprints', 'Freezing Temperatures'],
