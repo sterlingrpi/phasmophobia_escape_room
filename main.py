@@ -15,15 +15,34 @@ progress['value'] = 100
 ghost_canvas = Canvas(root, width=200, height=200)  # Create 200x200 Canvas widget
 ghost_canvas.pack()
 
-lamp = ghost_canvas.create_oval(50, 50, 100, 100, fill='yellow')  # Create a circle on the Canvas
+#lamp = ghost_canvas.create_oval(50, 50, 100, 100, fill='yellow')  # Create a circle on the Canvas
+import serial
+serialPort = serial.Serial(port="COM3",
+                           baudrate=9600,
+                           bytesize=8,
+                           timeout=2,
+                           stopbits=serial.STOPBITS_ONE
+                           )
+print('initializing...')
+time.sleep(3)
+serialPort.write(b'3')
+
+def on():
+    serialPort.write(b'3')
+
+def off():
+    serialPort.write(b'2')
 
 def blink():
+    print('do the blink')
     for _ in range(2):
-        ghost_canvas.itemconfig(lamp, fill='gray')
-        root.update_idletasks()
+        #ghost_canvas.itemconfig(lamp, fill='gray')
+        #root.update_idletasks()
+        serialPort.write(b'2')
         time.sleep(0.5)
-        ghost_canvas.itemconfig(lamp, fill='yellow')
-        root.update_idletasks()
+        #ghost_canvas.itemconfig(lamp, fill='yellow')
+        #root.update_idletasks()
+        serialPort.write(b'3')
         time.sleep(0.5)
 
 def spirit_box_loop():
@@ -37,7 +56,7 @@ def spirit_box_loop():
         try:
             text = r.recognize_google(audio_text)
             print(text)
-            if 'sign' in text:
+            if 'sign' in text or 'show' in text:
                 blink()
         except:
             print("Sorry, I did not get that")
@@ -55,6 +74,8 @@ progress.pack(pady=10)
 # the progress bar
 Button(root, text='Sanity drain', command=update_sanity).pack(pady=10)
 Button(root, text='Spirit box on', command=spirit_box_loop).pack(pady=10)
+Button(root, text='on', command=on).pack(pady=10)
+Button(root, text='off', command=off).pack(pady=10)
 
 # infinite loop
 mainloop()
