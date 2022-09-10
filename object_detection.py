@@ -73,12 +73,8 @@ class Camera:
         """Overlay labeled boxes on an image with formatted scores and label names."""
         colors = list(ImageColor.colormap.values())
 
-        try:
-            font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf",
-                                  25)
-        except IOError:
-            print("Font not found, using default font.")
-            font = ImageFont.load_default()
+        # font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf", 25)
+        font = ImageFont.load_default()
 
         for i in range(min(boxes.shape[0], max_boxes)):
             if scores[i] >= min_score:

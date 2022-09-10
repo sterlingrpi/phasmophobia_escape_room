@@ -3,6 +3,7 @@ import queue
 import time
 import random
 from object_detection import Camera
+from voice_recognition import Voice
 from tkinter import Tk, mainloop, HORIZONTAL, Text, Canvas
 from PIL import Image, ImageTk
 from tkinter.ttk import Progressbar, Button
@@ -16,8 +17,9 @@ hunting = True
 image_queue = queue.Queue()
 text_queue = queue.Queue()
 
-#initialize camera
+#initialize objects
 camera = Camera()
+voice = Voice()
 
 #define threads
 def video_thread():
@@ -29,15 +31,16 @@ def video_thread():
             image = camera.get_image()
             image_queue.put(image)
         else:
-            time.sleep(1)
+            time.sleep(0.1)
 
 def voice_thread():
     while True:
         if text_queue.empty():
-            text = 'text ' + str(random.randint(0, 10))
-            text_queue.put(text)
+            text = voice.get_text()
+            if text:
+                text_queue.put(text)
         else:
-            time.sleep(10)
+            time.sleep(0.1)
 
 #start threads
 threading.Thread(target=video_thread, daemon=True).start()
@@ -61,10 +64,10 @@ ghost_canvas.pack()
 
 def update_image(event):
     if image_queue.empty() and text_queue.empty():
-        print('all queues empty zzz...')
-        time.sleep(0.5)
+        time.sleep(0.1)
     else:
         if not image_queue.empty():
+            # https://stackoverflow.com/questions/43691102/changing-image-in-tkinter-canvas-in-while-loop
             global ghost_canvas
             global image_canvas
             global image
@@ -78,10 +81,10 @@ def update_image(event):
             ghost_canvas.itemconfig(image_canvas, image=image)  # change the displayed picture
             ghost_canvas.pack()
 
-            print('updating image')
         if not text_queue.empty():
             text = text_queue.get()
             print(text)
 
 root.bind('<Right>', update_image) # on right arrow key display random note
+# root.after(100, update_image)
 ghost_canvas.mainloop()
