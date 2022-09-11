@@ -17,12 +17,16 @@ class Camera:
         self.image = None
         module_handle = "https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1"
         self.detector = hub.load(module_handle).signatures['default']
+        self.near = False
 
     def capture_image(self):
         _, self.image = self.camera.read()
 
     def get_image(self):
         return self.image
+
+    def are_you_near(self):
+        return self.near
 
     def display_image(self):
         fig = plt.figure(figsize=(20, 15))
@@ -106,6 +110,11 @@ class Camera:
             result = {key:value.numpy() for key,value in result.items()}
 
             indices = [i for i, value in enumerate(result['detection_class_entities']) if value == b'Human face']
+
+            if indices:
+                self.near = True
+            else:
+                self.near = False
 
             result_filtered = {}
             for key in result:

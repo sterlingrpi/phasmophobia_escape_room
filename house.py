@@ -2,6 +2,7 @@ import serial
 import time
 from pygame import mixer  # Load the popular external library
 import random
+import threading
 
 class House:
     def __init__(self):
@@ -38,8 +39,21 @@ class House:
             self.on(outlet)
             time.sleep(0.5)
 
+    def fan_thread(self):
+        self.on(self.outlet_5)
+        time.sleep(10)
+        self.off(self.outlet_5)
+
     def fan(self):
-        pass
+        threading.Thread(target=self.fan_thread, daemon=True).start()
+
+    def book_thread(self):
+        self.on(self.outlet_4)
+        time.sleep(20)
+        self.off(self.outlet_4)
+
+    def book(self):
+        threading.Thread(target=self.book_thread, daemon=True).start()
 
     def old(self):
         self.mixer.music.load('sounds/adult.mp3')

@@ -67,6 +67,20 @@ def interatction_thread():
             if 'show' in text or 'sign' in text:
                 house.blink()
                 text = ''
+            if 'fan' in text:
+                house.fan()
+                text = ''
+            if 'book' in text:
+                house.book()
+                text = ''
+            if 'where' in text:
+                if camera.are_you_near():
+                    mixer.music.load('sounds/close.mp3')
+                    mixer.music.play()
+                else:
+                    mixer.music.load('sounds/away.mp3')
+                    mixer.music.play()
+                text = ''
             if 'old' in text:
                 mixer.music.load('sounds/adult.mp3')
                 mixer.music.play()
