@@ -18,7 +18,9 @@ class Voice():
         return self.text
 
 if __name__ == '__main__':
+    voice = Voice()
+    print('say something')
     while True:
-        voice = Voice()
         text = voice.get_text()
-        print(text)
+        if text:
+            print(text)
