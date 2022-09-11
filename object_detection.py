@@ -7,6 +7,9 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageColor, ImageFont
 from cv2 import VideoCapture
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 class Camera:
     def __init__(self,
                  camera_port = 0):
