@@ -4,18 +4,26 @@ import time
 import random
 from object_detection import Camera
 from voice_recognition import Voice
+from house import House
 from tkinter import Tk, mainloop, HORIZONTAL, Text, Canvas, Label, Frame
 from PIL import Image, ImageTk
 from tkinter.ttk import Progressbar, Button
+from pygame import mixer
 
 from cv2 import VideoCapture, cvtColor, COLOR_BGR2RGB
 
 #initialize parameters
 hunting = True
+text = ''
+
+#initialize queues
+text_queue = queue.Queue()
 
 #initialize objects
 camera = Camera()
 voice = Voice()
+house = House()
+mixer.init()
 
 # creating GUI
 ghost_window = Tk()
@@ -46,12 +54,29 @@ def update_image():
     image_label.after(10, update_image)
 
 def voice_thread():
+    global text
     while True:
         text = voice.get_text()
         if text:
             text_label.configure(text=text)
 
+def interatction_thread():
+    global text
+    while True:
+        try:
+            if 'show' in text or 'sign' in text:
+                house.blink()
+                text = ''
+            if 'old' in text:
+                mixer.music.load('sounds/adult.mp3')
+                mixer.music.play()
+                text = ''
+        except:
+            pass
+        time.sleep(0.1)
+
 # start threads
 update_image()
 threading.Thread(target=voice_thread, daemon=True).start()
+threading.Thread(target=interatction_thread, daemon=True).start()
 ghost_window.mainloop()
