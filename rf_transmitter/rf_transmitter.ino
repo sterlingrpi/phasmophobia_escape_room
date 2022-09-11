@@ -44,10 +44,10 @@ void loop() {
     if (incoming_char == '7') {
       mySwitch.send(1208781, 24); //ch4 on
     }
-    if (incoming_char == '6') {
+    if (incoming_char == '8') {
       mySwitch.send(1208771, 24); //ch5 off
     }
-    if (incoming_char == '7') {
+    if (incoming_char == '9') {
       mySwitch.send(1208779, 24); //ch5 on
     }
   }
