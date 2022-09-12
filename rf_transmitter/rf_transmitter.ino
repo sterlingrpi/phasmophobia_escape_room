@@ -6,6 +6,9 @@
 //ch4 1208773 1208781
 //ch5 1208771 1208779 
 
+//ch6 1208774 1208782
+//ch7 1208768 1208776
+
 #include <RCSwitch.h>
 
 RCSwitch mySwitch = RCSwitch();
@@ -49,6 +52,18 @@ void loop() {
     }
     if (incoming_char == '9') {
       mySwitch.send(1208779, 24); //ch5 on
+    }
+    if (incoming_char == 'a') {
+      mySwitch.send(1208774, 24); //ch6 off
+    }
+    if (incoming_char == 'b') {
+      mySwitch.send(1208782, 24); //ch6 on
+    }
+    if (incoming_char == 'c') {
+      mySwitch.send(1208768, 24); //ch7 off
+    }
+    if (incoming_char == 'd') {
+      mySwitch.send(1208776, 24); //ch7 on
     }
   }
 }
