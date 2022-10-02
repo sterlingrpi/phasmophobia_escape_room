@@ -128,9 +128,8 @@ class Camera:
 
 if __name__ == '__main__':
     camera = Camera()
-    camera.capture_image()
-    camera.display_image()
     while True:
         camera.capture_image()
         camera.run_detector()
-        camera.display_image()
+        print(camera.are_you_near())
+        # camera.display_image()

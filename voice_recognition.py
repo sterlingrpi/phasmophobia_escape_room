@@ -3,7 +3,7 @@ import speech_recognition as sr
 class Voice():
     def __init__(self, timeout=5.0):
         self.r = sr.Recognizer()
-        self.r.dynamic_energy_threshold = False
+        self.r.dynamic_energy_threshold = True
         self.timeout = timeout
         self.text = None
 
